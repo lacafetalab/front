@@ -13,7 +13,8 @@ categories = [
 
 # Design System
 
-## Publicación de un nuevo componente o de una nueva versión
+# Publicación de un nuevo componente o de una nueva versión
+
 
 > **Nota:** Recuerda tener configurado tu ssh para poder publicar al repo (cafeta-components) y estar logueado con npm login.
 
@@ -29,9 +30,9 @@ En el proyecto a utilizar, con esto actualizaras la dependencia
 ```
 yarn add @cafeta/components
 ```
-## ¿Cómo usar el Design System?
+# ¿Cómo usar el Design System?
 
-*Para empezar a usarlo basta con instalar @cafeta/components-react en el proyecto*
+Para empezar a usarlo basta con instalar @cafeta/components-react en el proyecto*
 
 ```
 yarn add @cafeta/components-react
@@ -40,27 +41,27 @@ yarn add @cafeta/components-react
 Los siguientes pasos son para customizar el DS acorde al proyecto.
 
 ### Pasos:
-1. Instalar Dependencias
-	```
-	yarn add -D @craco/craco
-	yarn add -D @fullhuman/postcss-purgecss
-	yarn add -D autoprefixer
-	yarn add -D tailwind.macro
-	yarn add -D tailwindcss
-	yarn add -D @cafeta/components-react
-	```
-2. Crear archivo craco.config.js en la raíz del proyecto con el siguiente código.
-	```
-	const { POSTCSS_MODES } = require('@craco/craco');
-	module.exports = {
-	  style: {
-	    postcss: {
-	      mode: POSTCSS_MODES.file,
-	    },
-	  },
-	};
-	```
-3. Crear archivo postcss.config.js
+#### 1 Instalar Dependencias
+```
+yarn add -D @craco/craco
+yarn add -D @fullhuman/postcss-purgecss
+yarn add -D autoprefixer
+yarn add -D tailwind.macro
+yarn add -D tailwindcss
+yarn add -D @cafeta/components-react
+```
+#### 2 Crear archivo craco.config.js en la raíz del proyecto con el siguiente código.
+```
+const { POSTCSS_MODES } = require('@craco/craco');
+module.exports = {
+  style: {
+    postcss: {
+      mode: POSTCSS_MODES.file,
+    },
+  },
+};
+```
+#### 3 Crear archivo postcss.config.js
 	```
 	const purgecss = require("@fullhuman/postcss-purgecss")({
 	  content: [
@@ -84,7 +85,7 @@ Los siguientes pasos son para customizar el DS acorde al proyecto.
 	```
 	> Para más información **[https://tailwindcss.com/docs/installation/#using-tailwind-	with-postcss](https://tailwindcss.com/docs/installation/#using-tailwind-with-postcss)**
 
-4. Dentro del ./src crear la carpeta tailwind
+#### 4 Dentro del ./src crear la carpeta tailwind
 	Crear el archivo config.js y theme.js dentro de tailwind
 	```
 	// config.js
@@ -812,7 +813,7 @@ Los siguientes pasos son para customizar el DS acorde al proyecto.
 	  }
 	}
 	```
-5. Dentro de la raíz crear el archivo babel-plugin-macros.config.js
+#### 5 Dentro de la raíz crear el archivo babel-plugin-macros.config.js
 	Tailwind.macros permite que todas las configuraciones de tailwind puedan usarse en styled components
 	```
 	module.exports = {
@@ -822,14 +823,14 @@ Los siguientes pasos son para customizar el DS acorde al proyecto.
 	  }
 	};
 	```
-6. Configurar React para que funcione con tailwind
+#### 6 Configurar React para que funcione con tailwind
 		-  Ir a package.json
 		-  Agregar craco en vez de react-script
 	```
 	// "start":yarn start
 	"start": craco start
 	```
-7. Agregar global.css en la raiz e importarlo en el index.tsx
+#### 7 Agregar global.css en la raiz e importarlo en el index.tsx
 	```
 	/* purgecss start ignore */
 	@tailwind base;
@@ -875,16 +876,16 @@ Componentes basados en el design system
 	  --neutral-02: #748e98;
 	  --neutral-03: #4a4a4a;
 	  --neutral-04: #ffffff;
-## Install 
+### Install 
 
 	  --success: #22aa00;
 	  --error: #f10a32;
 	  --alert: #ffc541;
-## Run 
+### Run 
 
 	  --disabled-text: #828594;
 	}
-## Build
+### Build
 
 	html,
 	body {
@@ -895,7 +896,7 @@ Componentes basados en el design system
 	html {
 	  font-size: 62.5%;
 	}
-## Deploy manual 
+### Deploy manual 
 
 	body {
 	  @apply text-neutral-02 bg-01 font-regular text-body;
@@ -954,12 +955,21 @@ Previamente loguearse en firebase: `cd deploy/ && firebase login` (solo cuenta v
 	@tailwind utilities;
 	```
 
-## Build
+### Build
 
-`make build`
+```
+make build
+```
 
-## Deploy manual 
+### Deploy manual 
 
-Previamente loguearse en firebase: `cd deploy/ && firebase login` (solo cuenta valida) 
+Previamente loguearse en firebase: 
+```
+cd deploy/ && firebase login
+``` 
+(solo cuenta valida) 
 
-Luego hacer:  `make deploy`
+Luego hacer: 
+```
+make deploy
+```

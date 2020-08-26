@@ -27,3 +27,11 @@ https://docs.google.com/presentation/d/1u3mH_vG4HKm2Ynayccz7GTMxzRBOvYX9RbmaGYR8
 link del design system(dise;o): https://app.zeplin.io/project/5e277e0660b01e541a0ed8f7/dashboard?sid=5e6bbf5ede2abb14346cc84c
 
 link de figma con ejemplo de una pantalla de silbia y algunos tips: https://www.figma.com/file/dgpc2iFtP9UMBVgjeM1NXg/Burger-DS?node-id=0%3A1
+
+
+### CRISTOPHER
+
+#### Charla Arquitectura Front
+
+Tailwind
+https://blog.logrocket.com/create-react-app-and-tailwindcss/

@@ -32,6 +32,7 @@ link de figma con ejemplo de una pantalla de silbia y algunos tips: https://www.
 ### CRISTOPHER
 
 #### Charla Arquitectura Front
+https://www.dropbox.com/s/tlkal29fb3x3wy8/UTP_PPT.pptx?dl=0
 
 Tailwind
 https://blog.logrocket.com/create-react-app-and-tailwindcss/

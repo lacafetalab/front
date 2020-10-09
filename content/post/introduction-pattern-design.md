@@ -19,7 +19,6 @@ Por otro lado se hace un pequeña introducción sobre patrones de diseño detall
 - **Singleton** (Patrón Estructural)
 - **Decorator**:(Patrón Estructural)
 - **Iterator** (Patrón de Comportamiento)
- 
 
 <br/>
 
@@ -32,4 +31,3 @@ Aportes: https://www.typescriptlang.org/docs/handbook/decorators.html
 Codigo: https://github.com/lacafetalab/design-patterns-demo
 
 **Expositores:** Verónica y Carlos  
-

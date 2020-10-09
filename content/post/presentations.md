@@ -27,7 +27,8 @@ link del design system(dise;o): https://app.zeplin.io/project/5e277e0660b01e541a
 
 link de figma con ejemplo de una pantalla de silbia y algunos tips: https://www.figma.com/file/dgpc2iFtP9UMBVgjeM1NXg/Burger-DS?node-id=0%3A1
 
-#### Charla de React Context	
+#### Charla de React Context
+Se explica como usar el React Context mediante un proyecto demo	
 ppt: https://docs.google.com/presentation/d/1YIomsPYg7CtXJkiow-n3TTeSvqpLQQDRpRDVULxD334/edit#slide=id.g8f14c88e5c_0_5
 grafico de manejo de estados: https://docs.google.com/drawings/d/1XzqD62z_n3ie5694UIoDKaFQAfWBB2YtjTEA3lr1QG8/edit
 sandbox: https://codesandbox.io/s/react-context-starter-w7o1x?file=/src/Generator.tsx

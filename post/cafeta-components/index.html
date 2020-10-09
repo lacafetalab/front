@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+    <title>Blog Front</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#000084" />
+    <link rel="icon" href="https://lacafetalab.github.io/front//favicon.ico">
+    <link rel="canonical" href="https://lacafetalab.github.io/front/">
+    
+    
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></button>
+            <a class="brand" href="https://lacafetalab.github.io/front/">Blog Front</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    
+                    
+                        
+                            <li>
+                                <a href="/front/links/">
+                                    
+                                    <span>Enlaces</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/front/post/">
+                                    
+                                    <span>Posts</span>
+                                </a>
+                            </li>
+                        
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav><div id="content" class="container">
+
+<div class="row-fluid navmargin">
+    <div class="page-header">
+        <h1>Design System - Thu, Jul 30, 2020</h1>
+    </div>
+    <p class="lead">Como instalar el Design System</p>
+    
+
+<h1 id="design-system">Design System</h1>
+
+<h1 id="publicación-de-un-nuevo-componente-o-de-una-nueva-versión">Publicación de un nuevo componente o de una nueva versión</h1>
+
+<blockquote>
+<p><strong>Nota:</strong> Recuerda tener configurado tu ssh para poder publicar al repo (cafeta-components) y estar logueado con npm login.</p>
+</blockquote>
+
+<p>Dentro del proyecto (cafeta-components)</p>
+
+<pre><code>yarn build
+git add .
+git commit -m ‘feat’
+lerna publish
+</code></pre>
+
+<p>En el proyecto a utilizar, con esto actualizaras la dependencia</p>
+
+<pre><code>yarn add @cafeta/components
+</code></pre>
+
+<h1 id="cómo-usar-el-design-system">¿Cómo usar el Design System?</h1>
+
+<p>Para empezar a usarlo basta con instalar @cafeta/components-react en el proyecto*</p>
+
+<pre><code>yarn add @cafeta/components-react
+</code></pre>
+
+<p>Los siguientes pasos son para customizar el DS acorde al proyecto.</p>
+
+<h3 id="pasos">Pasos:</h3>
+
+<h4 id="1-instalar-dependencias">1 Instalar Dependencias</h4>
+
+<pre><code>yarn add -D @craco/craco
+yarn add -D @fullhuman/postcss-purgecss
+yarn add -D autoprefixer
+yarn add -D tailwind.macro
+yarn add -D tailwindcss
+yarn add -D @cafeta/components-react
+</code></pre>
+
+<h4 id="2-crear-archivo-craco-config-js-en-la-raíz-del-proyecto-con-el-siguiente-código">2 Crear archivo craco.config.js en la raíz del proyecto con el siguiente código.</h4>
+
+<pre><code>const { POSTCSS_MODES } = require('@craco/craco');
+module.exports = {
+  style: {
+    postcss: {
+      mode: POSTCSS_MODES.file,
+    },
+  },
+};
+</code></pre>
+
+<h4 id="3-crear-archivo-postcss-config-js">3 Crear archivo postcss.config.js</h4>
+
+<pre><code>```
+const purgecss = require(&quot;@fullhuman/postcss-purgecss&quot;)({
+  content: [
+    &quot;./src/**/*.html&quot;,
+    &quot;./src/**/*.js&quot;,
+    &quot;./src/**/*.jsx&quot;,
+    &quot;./src/**/*.ts&quot;,
+    &quot;./src/**/*.tsx&quot;,
+    &quot;./public/index.html&quot;
+  ],
+  defaultExtractor: content =&gt; content.match(/[\w-/:]+(?&lt;!:)/g) || []
+});
+
+module.exports = {
+  plugins: [
+    require(&quot;tailwindcss&quot;)(&quot;./src/tailwind.config.js&quot;),
+    require(&quot;autoprefixer&quot;),
+    ...(process.env.NODE_ENV === &quot;production&quot; ? [purgecss] : [])
+  ]
+};
+```
+&gt; Para más información **[https://tailwindcss.com/docs/installation/#using-tailwind-    with-postcss](https://tailwindcss.com/docs/installation/#using-tailwind-with-postcss)**
+</code></pre>
+
+<h4 id="4-dentro-del-src-crear-la-carpeta-tailwind">4 Dentro del ./src crear la carpeta tailwind</h4>
+
+<pre><code>Crear el archivo config.js y theme.js dentro de tailwind
+```
+// config.js
+const tailwindConfig = require(&quot;@cafeta/components-react/tailwind.config&quot;);
+const defaultTheme = require(&quot;tailwindcss/defaultTheme&quot;);
+
+module.exports = {
+  theme: {
+    ...tailwindConfig.theme,
+    fontFamily: {
+      ...defaultTheme.fontFamily,
+      sans: [&quot;Lato&quot;, ...defaultTheme.fontFamily.sans]
+    }
+  }
+};
+```
+```
+// theme.js
+export default {
+  &quot;screens&quot;: {
+    &quot;sm&quot;: &quot;640px&quot;,
+    &quot;md&quot;: &quot;768px&quot;,
+    &quot;lg&quot;: &quot;992px&quot;,
+    &quot;xl&quot;: &quot;1280px&quot;
+  },
+  &quot;colors&quot;: {
+    &quot;primary&quot;: {
+      &quot;10&quot;: &quot;var(--primary-10)&quot;,
+      &quot;20&quot;: &quot;var(--primary-20)&quot;,
+      &quot;30&quot;: &quot;var(--primary-30)&quot;,
+      &quot;40&quot;: &quot;var(--primary-40)&quot;,
+      &quot;50&quot;: &quot;var(--primary-50)&quot;,
+      &quot;60&quot;: &quot;var(--primary-60)&quot;,
+      &quot;70&quot;: &quot;var(--primary-70)&quot;,
+      &quot;80&quot;: &quot;var(--primary-80)&quot;,
+      &quot;90&quot;: &quot;var(--primary-90)&quot;,
+      &quot;default&quot;: &quot;var(--primary)&quot;,
+      &quot;dark&quot;: &quot;var(--primary-dark)&quot;
+    },
+    &quot;secondary&quot;: {
+      &quot;10&quot;: &quot;var(--secondary-10)&quot;,
+      &quot;20&quot;: &quot;var(--secondary-20)&quot;,
+      &quot;30&quot;: &quot;var(--secondary-30)&quot;,
+      &quot;40&quot;: &quot;var(--secondary-40)&quot;,
+      &quot;50&quot;: &quot;var(--secondary-50)&quot;,
+      &quot;60&quot;: &quot;var(--secondary-60)&quot;,
+      &quot;70&quot;: &quot;var(--secondary-70)&quot;,
+      &quot;80&quot;: &quot;var(--secondary-80)&quot;,
+      &quot;90&quot;: &quot;var(--secondary-90)&quot;,
+      &quot;default&quot;: &quot;var(--secondary)&quot;,
+      &quot;dark&quot;: &quot;var(--secondary-dark)&quot;
+    },
+    &quot;neutral&quot;: {
+      &quot;01&quot;: &quot;var(--neutral-01)&quot;,
+      &quot;02&quot;: &quot;var(--neutral-02)&quot;,
+      &quot;03&quot;: &quot;var(--neutral-03)&quot;,
+      &quot;04&quot;: &quot;var(--neutral-04)&quot;
+    },
+    &quot;success&quot;: &quot;var(--success)&quot;,
+    &quot;error&quot;: &quot;var(--error)&quot;,
+    &quot;alert&quot;: &quot;var(--alert)&quot;
+  },
+  &quot;backgroundColor&quot;: {
+    &quot;primary&quot;: {
+      &quot;10&quot;: &quot;var(--primary-10)&quot;,
+      &quot;20&quot;: &quot;var(--primary-20)&quot;,
+      &quot;30&quot;: &quot;var(--primary-30)&quot;,
+      &quot;40&quot;: &quot;var(--primary-40)&quot;,
+      &quot;50&quot;: &quot;var(--primary-50)&quot;,
+      &quot;60&quot;: &quot;var(--primary-60)&quot;,
+      &quot;70&quot;: &quot;var(--primary-70)&quot;,
+      &quot;80&quot;: &quot;var(--primary-80)&quot;,
+      &quot;90&quot;: &quot;var(--primary-90)&quot;,
+      &quot;default&quot;: &quot;var(--primary)&quot;,
+      &quot;dark&quot;: &quot;var(--primary-dark)&quot;
+    },
+    &quot;secondary&quot;: {
+      &quot;10&quot;: &quot;var(--secondary-10)&quot;,
+      &quot;20&quot;: &quot;var(--secondary-20)&quot;,
+      &quot;30&quot;: &quot;var(--secondary-30)&quot;,
+      &quot;40&quot;: &quot;var(--secondary-40)&quot;,
+      &quot;50&quot;: &quot;var(--secondary-50)&quot;,
+      &quot;60&quot;: &quot;var(--secondary-60)&quot;,
+      &quot;70&quot;: &quot;var(--secondary-70)&quot;,
+      &quot;80&quot;: &quot;var(--secondary-80)&quot;,
+      &quot;90&quot;: &quot;var(--secondary-90)&quot;,
+      &quot;default&quot;: &quot;var(--secondary)&quot;,
+      &quot;dark&quot;: &quot;var(--secondary-dark)&quot;
+    },
+    &quot;neutral&quot;: {
+      &quot;01&quot;: &quot;var(--neutral-01)&quot;,
+      &quot;02&quot;: &quot;var(--neutral-02)&quot;,
+      &quot;03&quot;: &quot;var(--neutral-03)&quot;,
+      &quot;04&quot;: &quot;var(--neutral-04)&quot;
+    },
+    &quot;success&quot;: &quot;var(--success)&quot;,
+    &quot;error&quot;: &quot;var(--error)&quot;,
+    &quot;alert&quot;: &quot;var(--alert)&quot;,
+    &quot;01&quot;: &quot;var(--background-01)&quot;,
+    &quot;02&quot;: &quot;var(--background-02)&quot;,
+    &quot;03&quot;: &quot;var(--background-03)&quot;,
+    &quot;04&quot;: &quot;var(--background-04)&quot;,
+    &quot;05&quot;: &quot;var(--background-05)&quot;,
+    &quot;disabled&quot;: &quot;var(--disabled-background)&quot;
+  },
+  &quot;textColor&quot;: {
+    &quot;primary&quot;: {
+      &quot;10&quot;: &quot;var(--primary-10)&quot;,
+      &quot;20&quot;: &quot;var(--primary-20)&quot;,
+      &quot;30&quot;: &quot;var(--primary-30)&quot;,
+      &quot;40&quot;: &quot;var(--primary-40)&quot;,
+      &quot;50&quot;: &quot;var(--primary-50)&quot;,
+      &quot;60&quot;: &quot;var(--primary-60)&quot;,
+      &quot;70&quot;: &quot;var(--primary-70)&quot;,
+      &quot;80&quot;: &quot;var(--primary-80)&quot;,
+      &quot;90&quot;: &quot;var(--primary-90)&quot;,
+      &quot;default&quot;: &quot;var(--primary)&quot;,
+      &quot;dark&quot;: &quot;var(--primary-dark)&quot;
+    },
+    &quot;secondary&quot;: {
+      &quot;10&quot;: &quot;var(--secondary-10)&quot;,
+      &quot;20&quot;: &quot;var(--secondary-20)&quot;,
+      &quot;30&quot;: &quot;var(--secondary-30)&quot;,
+      &quot;40&quot;: &quot;var(--secondary-40)&quot;,
+      &quot;50&quot;: &quot;var(--secondary-50)&quot;,
+      &quot;60&quot;: &quot;var(--secondary-60)&quot;,
+      &quot;70&quot;: &quot;var(--secondary-70)&quot;,
+      &quot;80&quot;: &quot;var(--secondary-80)&quot;,
+      &quot;90&quot;: &quot;var(--secondary-90)&quot;,
+      &quot;default&quot;: &quot;var(--secondary)&quot;,
+      &quot;dark&quot;: &quot;var(--secondary-dark)&quot;
+    },
+    &quot;neutral&quot;: {
+      &quot;01&quot;: &quot;var(--neutral-01)&quot;,
+      &quot;02&quot;: &quot;var(--neutral-02)&quot;,
+      &quot;03&quot;: &quot;var(--neutral-03)&quot;,
+      &quot;04&quot;: &quot;var(--neutral-04)&quot;
+    },
+    &quot;success&quot;: &quot;var(--success)&quot;,
+    &quot;error&quot;: &quot;var(--error)&quot;,
+    &quot;alert&quot;: &quot;var(--alert)&quot;,
+    &quot;disabled&quot;: &quot;var(--disabled-text)&quot;
+  },
+  &quot;borderColor&quot;: {
+    &quot;primary&quot;: {
+      &quot;10&quot;: &quot;var(--primary-10)&quot;,
+      &quot;20&quot;: &quot;var(--primary-20)&quot;,
+      &quot;30&quot;: &quot;var(--primary-30)&quot;,
+      &quot;40&quot;: &quot;var(--primary-40)&quot;,
+      &quot;50&quot;: &quot;var(--primary-50)&quot;,
+      &quot;60&quot;: &quot;var(--primary-60)&quot;,
+      &quot;70&quot;: &quot;var(--primary-70)&quot;,
+      &quot;80&quot;: &quot;var(--primary-80)&quot;,
+      &quot;90&quot;: &quot;var(--primary-90)&quot;,
+      &quot;default&quot;: &quot;var(--primary)&quot;,
+      &quot;dark&quot;: &quot;var(--primary-dark)&quot;
+    },
+    &quot;secondary&quot;: {
+      &quot;10&quot;: &quot;var(--secondary-10)&quot;,
+      &quot;20&quot;: &quot;var(--secondary-20)&quot;,
+      &quot;30&quot;: &quot;var(--secondary-30)&quot;,
+      &quot;40&quot;: &quot;var(--secondary-40)&quot;,
+      &quot;50&quot;: &quot;var(--secondary-50)&quot;,
+      &quot;60&quot;: &quot;var(--secondary-60)&quot;,
+      &quot;70&quot;: &quot;var(--secondary-70)&quot;,
+      &quot;80&quot;: &quot;var(--secondary-80)&quot;,
+      &quot;90&quot;: &quot;var(--secondary-90)&quot;,
+      &quot;default&quot;: &quot;var(--secondary)&quot;,
+      &quot;dark&quot;: &quot;var(--secondary-dark)&quot;
+    },
+    &quot;neutral&quot;: {
+      &quot;01&quot;: &quot;var(--neutral-01)&quot;,
+      &quot;02&quot;: &quot;var(--neutral-02)&quot;,
+      &quot;03&quot;: &quot;var(--neutral-03)&quot;,
+      &quot;04&quot;: &quot;var(--neutral-04)&quot;
+    },
+    &quot;success&quot;: &quot;var(--success)&quot;,
+    &quot;error&quot;: &quot;var(--error)&quot;,
+    &quot;alert&quot;: &quot;var(--alert)&quot;,
+    &quot;disabled&quot;: &quot;var(--disabled-background)&quot;
+  },
+  &quot;spacing&quot;: {
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;
+  },
+  &quot;borderRadius&quot;: {
+    &quot;sm&quot;: &quot;0.4rem&quot;,
+    &quot;default&quot;: &quot;0.8rem&quot;,
+    &quot;lg&quot;: &quot;2.4rem&quot;,
+    &quot;full&quot;: &quot;9999px&quot;
+  },
+  &quot;fontFamily&quot;: {
+    &quot;sans&quot;: [
+      &quot;Lato&quot;,
+      &quot;system-ui&quot;,
+      &quot;-apple-system&quot;,
+      &quot;BlinkMacSystemFont&quot;,
+      &quot;\&quot;Segoe UI\&quot;&quot;,
+      &quot;Roboto&quot;,
+      &quot;\&quot;Helvetica Neue\&quot;&quot;,
+      &quot;Arial&quot;,
+      &quot;\&quot;Noto Sans\&quot;&quot;,
+      &quot;sans-serif&quot;,
+      &quot;\&quot;Apple Color Emoji\&quot;&quot;,
+      &quot;\&quot;Segoe UI Emoji\&quot;&quot;,
+      &quot;\&quot;Segoe UI Symbol\&quot;&quot;,
+      &quot;\&quot;Noto Color Emoji\&quot;&quot;
+    ],
+    &quot;serif&quot;: [
+      &quot;Georgia&quot;,
+      &quot;Cambria&quot;,
+      &quot;\&quot;Times New Roman\&quot;&quot;,
+      &quot;Times&quot;,
+      &quot;serif&quot;
+    ],
+    &quot;mono&quot;: [
+      &quot;Menlo&quot;,
+      &quot;Monaco&quot;,
+      &quot;Consolas&quot;,
+      &quot;\&quot;Liberation Mono\&quot;&quot;,
+      &quot;\&quot;Courier New\&quot;&quot;,
+      &quot;monospace&quot;
+    ]
+  },
+  &quot;fontSize&quot;: {
+    &quot;heading-01&quot;: &quot;2.4rem&quot;,
+    &quot;heading-02&quot;: &quot;2rem&quot;,
+    &quot;subheading-01&quot;: &quot;1.8rem&quot;,
+    &quot;subheading-02&quot;: &quot;1.6rem&quot;,
+    &quot;body&quot;: &quot;1.4rem&quot;,
+    &quot;body-02&quot;: &quot;1.6rem&quot;,
+    &quot;small-01&quot;: &quot;1.1rem&quot;,
+    &quot;small-02&quot;: &quot;1.2rem&quot;,
+    &quot;small-03&quot;: &quot;1rem&quot;,
+    &quot;display-01&quot;: &quot;4.8rem&quot;,
+    &quot;display-02&quot;: &quot;4rem&quot;
+  },
+  &quot;fontWeight&quot;: {
+    &quot;light&quot;: &quot;300&quot;,
+    &quot;regular&quot;: &quot;400&quot;,
+    &quot;bold&quot;: &quot;700&quot;,
+    &quot;black&quot;: &quot;900&quot;
+  },
+  &quot;backgroundPosition&quot;: {
+    &quot;bottom&quot;: &quot;bottom&quot;,
+    &quot;center&quot;: &quot;center&quot;,
+    &quot;left&quot;: &quot;left&quot;,
+    &quot;left-bottom&quot;: &quot;left bottom&quot;,
+    &quot;left-top&quot;: &quot;left top&quot;,
+    &quot;right&quot;: &quot;right&quot;,
+    &quot;right-bottom&quot;: &quot;right bottom&quot;,
+    &quot;right-top&quot;: &quot;right top&quot;,
+    &quot;top&quot;: &quot;top&quot;
+  },
+  &quot;backgroundSize&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;cover&quot;: &quot;cover&quot;,
+    &quot;contain&quot;: &quot;contain&quot;
+  },
+  &quot;borderWidth&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;2&quot;: &quot;2px&quot;,
+    &quot;4&quot;: &quot;4px&quot;,
+    &quot;8&quot;: &quot;8px&quot;,
+    &quot;default&quot;: &quot;1px&quot;
+  },
+  &quot;boxShadow&quot;: {
+    &quot;xs&quot;: &quot;0 0 0 1px rgba(0, 0, 0, 0.05)&quot;,
+    &quot;sm&quot;: &quot;0 1px 2px 0 rgba(0, 0, 0, 0.05)&quot;,
+    &quot;default&quot;: &quot;0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)&quot;,
+    &quot;md&quot;: &quot;0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)&quot;,
+    &quot;lg&quot;: &quot;0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)&quot;,
+    &quot;xl&quot;: &quot;0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)&quot;,
+    &quot;2xl&quot;: &quot;0 25px 50px -12px rgba(0, 0, 0, 0.25)&quot;,
+    &quot;inner&quot;: &quot;inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)&quot;,
+    &quot;outline&quot;: &quot;0 0 0 3px rgba(66, 153, 225, 0.5)&quot;,
+    &quot;none&quot;: &quot;none&quot;
+  },
+  &quot;container&quot;: {},
+  &quot;cursor&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;default&quot;: &quot;default&quot;,
+    &quot;pointer&quot;: &quot;pointer&quot;,
+    &quot;wait&quot;: &quot;wait&quot;,
+    &quot;text&quot;: &quot;text&quot;,
+    &quot;move&quot;: &quot;move&quot;,
+    &quot;not-allowed&quot;: &quot;not-allowed&quot;
+  },
+  &quot;fill&quot;: {
+    &quot;current&quot;: &quot;currentColor&quot;
+  },
+  &quot;flex&quot;: {
+    &quot;1&quot;: &quot;1 1 0%&quot;,
+    &quot;auto&quot;: &quot;1 1 auto&quot;,
+    &quot;initial&quot;: &quot;0 1 auto&quot;,
+    &quot;none&quot;: &quot;none&quot;
+  },
+  &quot;flexGrow&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;default&quot;: &quot;1&quot;
+  },
+  &quot;flexShrink&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;default&quot;: &quot;1&quot;
+  },
+  &quot;height&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;,
+    &quot;full&quot;: &quot;100%&quot;,
+    &quot;screen&quot;: &quot;100vh&quot;
+  },
+  &quot;inset&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;auto&quot;: &quot;auto&quot;
+  },
+  &quot;letterSpacing&quot;: {
+    &quot;tighter&quot;: &quot;-0.05em&quot;,
+    &quot;tight&quot;: &quot;-0.025em&quot;,
+    &quot;normal&quot;: &quot;0&quot;,
+    &quot;wide&quot;: &quot;0.025em&quot;,
+    &quot;wider&quot;: &quot;0.05em&quot;,
+    &quot;widest&quot;: &quot;0.1em&quot;
+  },
+  &quot;lineHeight&quot;: {
+    &quot;3&quot;: &quot;.75rem&quot;,
+    &quot;4&quot;: &quot;1rem&quot;,
+    &quot;5&quot;: &quot;1.25rem&quot;,
+    &quot;6&quot;: &quot;1.5rem&quot;,
+    &quot;7&quot;: &quot;1.75rem&quot;,
+    &quot;8&quot;: &quot;2rem&quot;,
+    &quot;9&quot;: &quot;2.25rem&quot;,
+    &quot;10&quot;: &quot;2.5rem&quot;,
+    &quot;none&quot;: &quot;1&quot;,
+    &quot;tight&quot;: &quot;1.25&quot;,
+    &quot;snug&quot;: &quot;1.375&quot;,
+    &quot;normal&quot;: &quot;1.5&quot;,
+    &quot;relaxed&quot;: &quot;1.625&quot;,
+    &quot;loose&quot;: &quot;2&quot;
+  },
+  &quot;listStyleType&quot;: {
+    &quot;none&quot;: &quot;none&quot;,
+    &quot;disc&quot;: &quot;disc&quot;,
+    &quot;decimal&quot;: &quot;decimal&quot;
+  },
+  &quot;margin&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;,
+    &quot;-xsm&quot;: &quot;-0.4rem&quot;,
+    &quot;-sm&quot;: &quot;-0.8rem&quot;,
+    &quot;-md&quot;: &quot;-1.2rem&quot;,
+    &quot;-lg&quot;: &quot;-1.6rem&quot;,
+    &quot;-xlg&quot;: &quot;-2rem&quot;,
+    &quot;-xxlg&quot;: &quot;-2.4rem&quot;
+  },
+  &quot;maxHeight&quot;: {
+    &quot;full&quot;: &quot;100%&quot;,
+    &quot;screen&quot;: &quot;100vh&quot;
+  },
+  &quot;maxWidth&quot;: {
+    &quot;none&quot;: &quot;none&quot;,
+    &quot;xs&quot;: &quot;20rem&quot;,
+    &quot;sm&quot;: &quot;24rem&quot;,
+    &quot;md&quot;: &quot;28rem&quot;,
+    &quot;lg&quot;: &quot;32rem&quot;,
+    &quot;xl&quot;: &quot;36rem&quot;,
+    &quot;2xl&quot;: &quot;42rem&quot;,
+    &quot;3xl&quot;: &quot;48rem&quot;,
+    &quot;4xl&quot;: &quot;56rem&quot;,
+    &quot;5xl&quot;: &quot;64rem&quot;,
+    &quot;6xl&quot;: &quot;72rem&quot;,
+    &quot;full&quot;: &quot;100%&quot;,
+    &quot;screen-sm&quot;: &quot;640px&quot;,
+    &quot;screen-md&quot;: &quot;768px&quot;,
+    &quot;screen-lg&quot;: &quot;992px&quot;,
+    &quot;screen-xl&quot;: &quot;1280px&quot;
+  },
+  &quot;minHeight&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;full&quot;: &quot;100%&quot;,
+    &quot;screen&quot;: &quot;100vh&quot;
+  },
+  &quot;minWidth&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;full&quot;: &quot;100%&quot;
+  },
+  &quot;objectPosition&quot;: {
+    &quot;bottom&quot;: &quot;bottom&quot;,
+    &quot;center&quot;: &quot;center&quot;,
+    &quot;left&quot;: &quot;left&quot;,
+    &quot;left-bottom&quot;: &quot;left bottom&quot;,
+    &quot;left-top&quot;: &quot;left top&quot;,
+    &quot;right&quot;: &quot;right&quot;,
+    &quot;right-bottom&quot;: &quot;right bottom&quot;,
+    &quot;right-top&quot;: &quot;right top&quot;,
+    &quot;top&quot;: &quot;top&quot;
+  },
+  &quot;opacity&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;25&quot;: &quot;0.25&quot;,
+    &quot;50&quot;: &quot;0.5&quot;,
+    &quot;75&quot;: &quot;0.75&quot;,
+    &quot;100&quot;: &quot;1&quot;
+  },
+  &quot;order&quot;: {
+    &quot;1&quot;: &quot;1&quot;,
+    &quot;2&quot;: &quot;2&quot;,
+    &quot;3&quot;: &quot;3&quot;,
+    &quot;4&quot;: &quot;4&quot;,
+    &quot;5&quot;: &quot;5&quot;,
+    &quot;6&quot;: &quot;6&quot;,
+    &quot;7&quot;: &quot;7&quot;,
+    &quot;8&quot;: &quot;8&quot;,
+    &quot;9&quot;: &quot;9&quot;,
+    &quot;10&quot;: &quot;10&quot;,
+    &quot;11&quot;: &quot;11&quot;,
+    &quot;12&quot;: &quot;12&quot;,
+    &quot;first&quot;: &quot;-9999&quot;,
+    &quot;last&quot;: &quot;9999&quot;,
+    &quot;none&quot;: &quot;0&quot;
+  },
+  &quot;padding&quot;: {
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;
+  },
+  &quot;placeholderColor&quot;: {
+    &quot;primary&quot;: {
+      &quot;10&quot;: &quot;var(--primary-10)&quot;,
+      &quot;20&quot;: &quot;var(--primary-20)&quot;,
+      &quot;30&quot;: &quot;var(--primary-30)&quot;,
+      &quot;40&quot;: &quot;var(--primary-40)&quot;,
+      &quot;50&quot;: &quot;var(--primary-50)&quot;,
+      &quot;60&quot;: &quot;var(--primary-60)&quot;,
+      &quot;70&quot;: &quot;var(--primary-70)&quot;,
+      &quot;80&quot;: &quot;var(--primary-80)&quot;,
+      &quot;90&quot;: &quot;var(--primary-90)&quot;,
+      &quot;default&quot;: &quot;var(--primary)&quot;,
+      &quot;dark&quot;: &quot;var(--primary-dark)&quot;
+    },
+    &quot;secondary&quot;: {
+      &quot;10&quot;: &quot;var(--secondary-10)&quot;,
+      &quot;20&quot;: &quot;var(--secondary-20)&quot;,
+      &quot;30&quot;: &quot;var(--secondary-30)&quot;,
+      &quot;40&quot;: &quot;var(--secondary-40)&quot;,
+      &quot;50&quot;: &quot;var(--secondary-50)&quot;,
+      &quot;60&quot;: &quot;var(--secondary-60)&quot;,
+      &quot;70&quot;: &quot;var(--secondary-70)&quot;,
+      &quot;80&quot;: &quot;var(--secondary-80)&quot;,
+      &quot;90&quot;: &quot;var(--secondary-90)&quot;,
+      &quot;default&quot;: &quot;var(--secondary)&quot;,
+      &quot;dark&quot;: &quot;var(--secondary-dark)&quot;
+    },
+    &quot;neutral&quot;: {
+      &quot;01&quot;: &quot;var(--neutral-01)&quot;,
+      &quot;02&quot;: &quot;var(--neutral-02)&quot;,
+      &quot;03&quot;: &quot;var(--neutral-03)&quot;,
+      &quot;04&quot;: &quot;var(--neutral-04)&quot;
+    },
+    &quot;success&quot;: &quot;var(--success)&quot;,
+    &quot;error&quot;: &quot;var(--error)&quot;,
+    &quot;alert&quot;: &quot;var(--alert)&quot;
+  },
+  &quot;stroke&quot;: {
+    &quot;current&quot;: &quot;currentColor&quot;
+  },
+  &quot;strokeWidth&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;1&quot;: &quot;1&quot;,
+    &quot;2&quot;: &quot;2&quot;
+  },
+  &quot;width&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;,
+    &quot;1/2&quot;: &quot;50%&quot;,
+    &quot;1/3&quot;: &quot;33.333333%&quot;,
+    &quot;2/3&quot;: &quot;66.666667%&quot;,
+    &quot;1/4&quot;: &quot;25%&quot;,
+    &quot;2/4&quot;: &quot;50%&quot;,
+    &quot;3/4&quot;: &quot;75%&quot;,
+    &quot;1/5&quot;: &quot;20%&quot;,
+    &quot;2/5&quot;: &quot;40%&quot;,
+    &quot;3/5&quot;: &quot;60%&quot;,
+    &quot;4/5&quot;: &quot;80%&quot;,
+    &quot;1/6&quot;: &quot;16.666667%&quot;,
+    &quot;2/6&quot;: &quot;33.333333%&quot;,
+    &quot;3/6&quot;: &quot;50%&quot;,
+    &quot;4/6&quot;: &quot;66.666667%&quot;,
+    &quot;5/6&quot;: &quot;83.333333%&quot;,
+    &quot;1/12&quot;: &quot;8.333333%&quot;,
+    &quot;2/12&quot;: &quot;16.666667%&quot;,
+    &quot;3/12&quot;: &quot;25%&quot;,
+    &quot;4/12&quot;: &quot;33.333333%&quot;,
+    &quot;5/12&quot;: &quot;41.666667%&quot;,
+    &quot;6/12&quot;: &quot;50%&quot;,
+    &quot;7/12&quot;: &quot;58.333333%&quot;,
+    &quot;8/12&quot;: &quot;66.666667%&quot;,
+    &quot;9/12&quot;: &quot;75%&quot;,
+    &quot;10/12&quot;: &quot;83.333333%&quot;,
+    &quot;11/12&quot;: &quot;91.666667%&quot;,
+    &quot;full&quot;: &quot;100%&quot;,
+    &quot;screen&quot;: &quot;100vw&quot;
+  },
+  &quot;zIndex&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;10&quot;: &quot;10&quot;,
+    &quot;20&quot;: &quot;20&quot;,
+    &quot;30&quot;: &quot;30&quot;,
+    &quot;40&quot;: &quot;40&quot;,
+    &quot;50&quot;: &quot;50&quot;,
+    &quot;auto&quot;: &quot;auto&quot;
+  },
+  &quot;gap&quot;: {
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;
+  },
+  &quot;gridTemplateColumns&quot;: {
+    &quot;1&quot;: &quot;repeat(1, minmax(0, 1fr))&quot;,
+    &quot;2&quot;: &quot;repeat(2, minmax(0, 1fr))&quot;,
+    &quot;3&quot;: &quot;repeat(3, minmax(0, 1fr))&quot;,
+    &quot;4&quot;: &quot;repeat(4, minmax(0, 1fr))&quot;,
+    &quot;5&quot;: &quot;repeat(5, minmax(0, 1fr))&quot;,
+    &quot;6&quot;: &quot;repeat(6, minmax(0, 1fr))&quot;,
+    &quot;7&quot;: &quot;repeat(7, minmax(0, 1fr))&quot;,
+    &quot;8&quot;: &quot;repeat(8, minmax(0, 1fr))&quot;,
+    &quot;9&quot;: &quot;repeat(9, minmax(0, 1fr))&quot;,
+    &quot;10&quot;: &quot;repeat(10, minmax(0, 1fr))&quot;,
+    &quot;11&quot;: &quot;repeat(11, minmax(0, 1fr))&quot;,
+    &quot;12&quot;: &quot;repeat(12, minmax(0, 1fr))&quot;,
+    &quot;none&quot;: &quot;none&quot;
+  },
+  &quot;gridColumn&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;span-1&quot;: &quot;span 1 / span 1&quot;,
+    &quot;span-2&quot;: &quot;span 2 / span 2&quot;,
+    &quot;span-3&quot;: &quot;span 3 / span 3&quot;,
+    &quot;span-4&quot;: &quot;span 4 / span 4&quot;,
+    &quot;span-5&quot;: &quot;span 5 / span 5&quot;,
+    &quot;span-6&quot;: &quot;span 6 / span 6&quot;,
+    &quot;span-7&quot;: &quot;span 7 / span 7&quot;,
+    &quot;span-8&quot;: &quot;span 8 / span 8&quot;,
+    &quot;span-9&quot;: &quot;span 9 / span 9&quot;,
+    &quot;span-10&quot;: &quot;span 10 / span 10&quot;,
+    &quot;span-11&quot;: &quot;span 11 / span 11&quot;,
+    &quot;span-12&quot;: &quot;span 12 / span 12&quot;
+  },
+  &quot;gridColumnStart&quot;: {
+    &quot;1&quot;: &quot;1&quot;,
+    &quot;2&quot;: &quot;2&quot;,
+    &quot;3&quot;: &quot;3&quot;,
+    &quot;4&quot;: &quot;4&quot;,
+    &quot;5&quot;: &quot;5&quot;,
+    &quot;6&quot;: &quot;6&quot;,
+    &quot;7&quot;: &quot;7&quot;,
+    &quot;8&quot;: &quot;8&quot;,
+    &quot;9&quot;: &quot;9&quot;,
+    &quot;10&quot;: &quot;10&quot;,
+    &quot;11&quot;: &quot;11&quot;,
+    &quot;12&quot;: &quot;12&quot;,
+    &quot;13&quot;: &quot;13&quot;,
+    &quot;auto&quot;: &quot;auto&quot;
+  },
+  &quot;gridColumnEnd&quot;: {
+    &quot;1&quot;: &quot;1&quot;,
+    &quot;2&quot;: &quot;2&quot;,
+    &quot;3&quot;: &quot;3&quot;,
+    &quot;4&quot;: &quot;4&quot;,
+    &quot;5&quot;: &quot;5&quot;,
+    &quot;6&quot;: &quot;6&quot;,
+    &quot;7&quot;: &quot;7&quot;,
+    &quot;8&quot;: &quot;8&quot;,
+    &quot;9&quot;: &quot;9&quot;,
+    &quot;10&quot;: &quot;10&quot;,
+    &quot;11&quot;: &quot;11&quot;,
+    &quot;12&quot;: &quot;12&quot;,
+    &quot;13&quot;: &quot;13&quot;,
+    &quot;auto&quot;: &quot;auto&quot;
+  },
+  &quot;gridTemplateRows&quot;: {
+    &quot;1&quot;: &quot;repeat(1, minmax(0, 1fr))&quot;,
+    &quot;2&quot;: &quot;repeat(2, minmax(0, 1fr))&quot;,
+    &quot;3&quot;: &quot;repeat(3, minmax(0, 1fr))&quot;,
+    &quot;4&quot;: &quot;repeat(4, minmax(0, 1fr))&quot;,
+    &quot;5&quot;: &quot;repeat(5, minmax(0, 1fr))&quot;,
+    &quot;6&quot;: &quot;repeat(6, minmax(0, 1fr))&quot;,
+    &quot;none&quot;: &quot;none&quot;
+  },
+  &quot;gridRow&quot;: {
+    &quot;auto&quot;: &quot;auto&quot;,
+    &quot;span-1&quot;: &quot;span 1 / span 1&quot;,
+    &quot;span-2&quot;: &quot;span 2 / span 2&quot;,
+    &quot;span-3&quot;: &quot;span 3 / span 3&quot;,
+    &quot;span-4&quot;: &quot;span 4 / span 4&quot;,
+    &quot;span-5&quot;: &quot;span 5 / span 5&quot;,
+    &quot;span-6&quot;: &quot;span 6 / span 6&quot;
+  },
+  &quot;gridRowStart&quot;: {
+    &quot;1&quot;: &quot;1&quot;,
+    &quot;2&quot;: &quot;2&quot;,
+    &quot;3&quot;: &quot;3&quot;,
+    &quot;4&quot;: &quot;4&quot;,
+    &quot;5&quot;: &quot;5&quot;,
+    &quot;6&quot;: &quot;6&quot;,
+    &quot;7&quot;: &quot;7&quot;,
+    &quot;auto&quot;: &quot;auto&quot;
+  },
+  &quot;gridRowEnd&quot;: {
+    &quot;1&quot;: &quot;1&quot;,
+    &quot;2&quot;: &quot;2&quot;,
+    &quot;3&quot;: &quot;3&quot;,
+    &quot;4&quot;: &quot;4&quot;,
+    &quot;5&quot;: &quot;5&quot;,
+    &quot;6&quot;: &quot;6&quot;,
+    &quot;7&quot;: &quot;7&quot;,
+    &quot;auto&quot;: &quot;auto&quot;
+  },
+  &quot;transformOrigin&quot;: {
+    &quot;center&quot;: &quot;center&quot;,
+    &quot;top&quot;: &quot;top&quot;,
+    &quot;top-right&quot;: &quot;top right&quot;,
+    &quot;right&quot;: &quot;right&quot;,
+    &quot;bottom-right&quot;: &quot;bottom right&quot;,
+    &quot;bottom&quot;: &quot;bottom&quot;,
+    &quot;bottom-left&quot;: &quot;bottom left&quot;,
+    &quot;left&quot;: &quot;left&quot;,
+    &quot;top-left&quot;: &quot;top left&quot;
+  },
+  &quot;scale&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;50&quot;: &quot;.5&quot;,
+    &quot;75&quot;: &quot;.75&quot;,
+    &quot;90&quot;: &quot;.9&quot;,
+    &quot;95&quot;: &quot;.95&quot;,
+    &quot;100&quot;: &quot;1&quot;,
+    &quot;105&quot;: &quot;1.05&quot;,
+    &quot;110&quot;: &quot;1.1&quot;,
+    &quot;125&quot;: &quot;1.25&quot;,
+    &quot;150&quot;: &quot;1.5&quot;
+  },
+  &quot;rotate&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;45&quot;: &quot;45deg&quot;,
+    &quot;90&quot;: &quot;90deg&quot;,
+    &quot;180&quot;: &quot;180deg&quot;,
+    &quot;-180&quot;: &quot;-180deg&quot;,
+    &quot;-90&quot;: &quot;-90deg&quot;,
+    &quot;-45&quot;: &quot;-45deg&quot;
+  },
+  &quot;translate&quot;: {
+    &quot;xsm&quot;: &quot;0.4rem&quot;,
+    &quot;sm&quot;: &quot;0.8rem&quot;,
+    &quot;md&quot;: &quot;1.2rem&quot;,
+    &quot;lg&quot;: &quot;1.6rem&quot;,
+    &quot;xlg&quot;: &quot;2rem&quot;,
+    &quot;xxlg&quot;: &quot;2.4rem&quot;,
+    &quot;-xsm&quot;: &quot;-0.4rem&quot;,
+    &quot;-sm&quot;: &quot;-0.8rem&quot;,
+    &quot;-md&quot;: &quot;-1.2rem&quot;,
+    &quot;-lg&quot;: &quot;-1.6rem&quot;,
+    &quot;-xlg&quot;: &quot;-2rem&quot;,
+    &quot;-xxlg&quot;: &quot;-2.4rem&quot;,
+    &quot;-full&quot;: &quot;-100%&quot;,
+    &quot;-1/2&quot;: &quot;-50%&quot;,
+    &quot;1/2&quot;: &quot;50%&quot;,
+    &quot;full&quot;: &quot;100%&quot;
+  },
+  &quot;skew&quot;: {
+    &quot;0&quot;: &quot;0&quot;,
+    &quot;3&quot;: &quot;3deg&quot;,
+    &quot;6&quot;: &quot;6deg&quot;,
+    &quot;12&quot;: &quot;12deg&quot;,
+    &quot;-12&quot;: &quot;-12deg&quot;,
+    &quot;-6&quot;: &quot;-6deg&quot;,
+    &quot;-3&quot;: &quot;-3deg&quot;
+  },
+  &quot;transitionProperty&quot;: {
+    &quot;none&quot;: &quot;none&quot;,
+    &quot;all&quot;: &quot;all&quot;,
+    &quot;default&quot;: &quot;background-color, border-color, color, fill, stroke, opacity, box-shadow, transform&quot;,
+    &quot;colors&quot;: &quot;background-color, border-color, color, fill, stroke&quot;,
+    &quot;opacity&quot;: &quot;opacity&quot;,
+    &quot;shadow&quot;: &quot;box-shadow&quot;,
+    &quot;transform&quot;: &quot;transform&quot;
+  },
+  &quot;transitionTimingFunction&quot;: {
+    &quot;linear&quot;: &quot;linear&quot;,
+    &quot;in&quot;: &quot;cubic-bezier(0.4, 0, 1, 1)&quot;,
+    &quot;out&quot;: &quot;cubic-bezier(0, 0, 0.2, 1)&quot;,
+    &quot;in-out&quot;: &quot;cubic-bezier(0.4, 0, 0.2, 1)&quot;
+  },
+  &quot;transitionDuration&quot;: {
+    &quot;75&quot;: &quot;75ms&quot;,
+    &quot;100&quot;: &quot;100ms&quot;,
+    &quot;150&quot;: &quot;150ms&quot;,
+    &quot;200&quot;: &quot;200ms&quot;,
+    &quot;300&quot;: &quot;300ms&quot;,
+    &quot;500&quot;: &quot;500ms&quot;,
+    &quot;700&quot;: &quot;700ms&quot;,
+    &quot;1000&quot;: &quot;1000ms&quot;
+  }
+}
+```
+</code></pre>
+
+<h4 id="5-dentro-de-la-raíz-crear-el-archivo-babel-plugin-macros-config-js">5 Dentro de la raíz crear el archivo babel-plugin-macros.config.js</h4>
+
+<pre><code>Tailwind.macros permite que todas las configuraciones de tailwind puedan usarse en styled components
+```
+module.exports = {
+  tailwind: {
+    config: &quot;./src/tailwind/config.js&quot;,
+  styled: &quot;styled-components&quot;
+  }
+};
+```
+</code></pre>
+
+<h4 id="6-configurar-react-para-que-funcione-con-tailwind">6 Configurar React para que funcione con tailwind</h4>
+
+<pre><code>    -  Ir a package.json
+    -  Agregar craco en vez de react-script
+```
+// &quot;start&quot;:yarn start
+&quot;start&quot;: craco start
+```
+</code></pre>
+
+<h4 id="7-agregar-global-css-en-la-raiz-e-importarlo-en-el-index-tsx">7 Agregar global.css en la raiz e importarlo en el index.tsx</h4>
+
+<pre><code>```
+/* purgecss start ignore */
+@tailwind base;
+/* purgecss end ignore */
+
+@import url(&quot;https://fonts.googleapis.com/css?family=Lato:400,700,900&amp;display=swap&quot;);
+
+:root {
+  --background-01: #ebf1f5;
+  --background-02: #f3f4f6;
+  --background-03: #f9fbff;
+  --background-04: #f7f7fe;
+  --background-05: #f2f9ff;
+  --disabled-background: #e6edf2;
+
+  --primary: #2a3247;
+  --primary-dark: #141822;
+  --primary-90: #7373f7;
+  --primary-80: #8282f8;
+  --primary-70: #a1a1fa;
+  --primary-60: #b1b1fa;
+  --primary-50: #c1c1fb;
+  --primary-40: #d0d0fc;
+  --primary-30: #e0e0fd;
+  --primary-20: #efeffe;
+  --primary-10: #f7f7ff;
+</code></pre>
+
+<h1 id="la-cafeta-components">La Cafeta Components</h1>
+
+<pre><code>  --secondary: #6363f6;
+  --secondary-dark: #5050e7;
+  --secondary-90: #7373f7;
+  --secondary-80: #8282f8;
+  --secondary-70: #a1a1fa;
+  --secondary-60: #b1b1fa;
+  --secondary-50: #c1c1fb;
+  --secondary-40: #d0d0fc;
+  --secondary-30: #e0e0fd;
+  --secondary-20: #efeffe;
+  --secondary-10: #f7f7ff;
+</code></pre>
+
+<p>Componentes basados en el design system</p>
+
+<pre><code>  --neutral-01: #b0c0ca;
+  --neutral-02: #748e98;
+  --neutral-03: #4a4a4a;
+  --neutral-04: #ffffff;
+</code></pre>
+
+<h3 id="install">Install</h3>
+
+<pre><code>  --success: #22aa00;
+  --error: #f10a32;
+  --alert: #ffc541;
+</code></pre>
+
+<h3 id="run">Run</h3>
+
+<pre><code>  --disabled-text: #828594;
+}
+</code></pre>
+
+<h3 id="build">Build</h3>
+
+<pre><code>html,
+body {
+  @apply font-sans;
+}
+</code></pre>
+
+<p><code>make build</code></p>
+
+<pre><code>html {
+  font-size: 62.5%;
+}
+</code></pre>
+
+<h3 id="deploy-manual">Deploy manual</h3>
+
+<pre><code>body {
+  @apply text-neutral-02 bg-01 font-regular text-body;
+}
+</code></pre>
+
+<p>Previamente loguearse en firebase: <code>cd deploy/ &amp;&amp; firebase login</code> (solo cuenta valida)</p>
+
+<pre><code>h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong {
+  @apply font-bold;
+}
+
+a {
+  @apply text-primary;
+}
+
+input {
+  @apply font-sans;
+}
+
+*,
+*::before,
+*::after {
+  outline: none;
+  transition: background 0.2s ease-in-out;
+}
+
+span,
+a,
+div,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+*::before,
+*::after {
+  word-break: break-word;
+}
+
+div[id^=&quot;__lpform_&quot;] {
+  display: none !important;
+}
+
+/* purgecss start ignore */
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+```
+</code></pre>
+
+<h3 id="build-1">Build</h3>
+
+<pre><code>make build
+</code></pre>
+
+<h3 id="deploy-manual-1">Deploy manual</h3>
+
+<p>Previamente loguearse en firebase:</p>
+
+<pre><code>cd deploy/ &amp;&amp; firebase login
+</code></pre>
+
+<p>(solo cuenta valida)</p>
+
+<p>Luego hacer:</p>
+
+<pre><code>make deploy
+</code></pre>
+
+    <h4><a href="https://lacafetalab.github.io/front/"></a></h4>
+</div>
+
+
+        </div><footer class="container">
+    <hr class="soften">
+    <p>
+
+&copy; 
+
+    CafetaLab
+
+<span id="thisyear">2020</span>
+
+</p>
+    <p class="text-center">
+        
+        
+        
+        <a href="https://github.com/lacafetalab">GitHub</a> 
+        
+    </p>
+</footer>
+
+</body><link rel="stylesheet" href="/front/css/bootstrap.css">
+<link rel="stylesheet" href="/front/css/bootstrap-responsive.css">
+<link rel="stylesheet" href="/front/css/style.css">
+
+<script src="/front/js/jquery.js"></script>
+<script src="/front/js/bootstrap-386.js"></script>
+<script src="/front/js/bootstrap-transition.js"></script>
+<script src="/front/js/bootstrap-alert.js"></script>
+<script src="/front/js/bootstrap-modal.js"></script>
+<script src="/front/js/bootstrap-dropdown.js"></script>
+<script src="/front/js/bootstrap-scrollspy.js"></script>
+<script src="/front/js/bootstrap-tab.js"></script>
+<script src="/front/js/bootstrap-tooltip.js"></script>
+<script src="/front/js/bootstrap-popover.js"></script>
+<script src="/front/js/bootstrap-button.js"></script>
+<script src="/front/js/bootstrap-collapse.js"></script>
+<script src="/front/js/bootstrap-carousel.js"></script>
+<script src="/front/js/bootstrap-typeahead.js"></script>
+<script src="/front/js/bootstrap-affix.js"></script>
+<script>
+    _386 = { 
+        fastLoad: true ,
+        onePass: true , 
+        speedFactor: 0.2 
+    };
+
+    
+    function ThisYear() {
+        document.getElementById('thisyear').innerHTML = new Date().getFullYear();
+    };
+</script></html>

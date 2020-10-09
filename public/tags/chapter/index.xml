@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>chapter on Blog Front</title>
+    <link>https://lacafetalab.github.io/front/tags/chapter/</link>
+    <description>Recent content in chapter on Blog Front</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Thu, 08 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lacafetalab.github.io/front/tags/chapter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introducción a Patrones diseño</title>
+      <link>https://lacafetalab.github.io/front/post/introduction-pattern-design/</link>
+      <pubDate>Thu, 08 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lacafetalab.github.io/front/post/introduction-pattern-design/</guid>
+      <description>En esta presentacion se habla sobre las interfaces de typescript y su importancia en la implementación de patrones de diseño.
+Por otro lado se hace un pequeña introducción sobre patrones de diseño detallando los siguientes:
+ Factory Method (Patrón Estructural) Singleton (Patrón Estructural) Decorator:(Patrón Estructural) Iterator (Patrón de Comportamiento)  
+PPT: https://docs.google.com/presentation/d/1iSHZHo-w0atPxY5RScw_wApyyFjCKibCluSP7dlBTpA/edit?usp=sharing
+Refactoring Guru: https://refactoring.guru/es/design-patterns
+Aportes: https://www.typescriptlang.org/docs/handbook/decorators.html
+Codigo: https://github.com/lacafetalab/design-patterns-demo
+Expositores: Verónica y Carlos</description>
+    </item>
+    
+    <item>
+      <title>Presentaciones</title>
+      <link>https://lacafetalab.github.io/front/post/presentations/</link>
+      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lacafetalab.github.io/front/post/presentations/</guid>
+      <description>RENZO Charla Uso del Design System: https://docs.google.com/presentation/d/1QODhhS9buGcrIV71aOoSxgXhb2aUIOIBMQHE56xxPzk/edit#slide=id.p1
+Repo de la charla: https://github.com/rtelenta/react-tailwind-cafetacomponents
+Charla Diseño para Devs: https://docs.google.com/presentation/d/1u3mH_vG4HKm2Ynayccz7GTMxzRBOvYX9RbmaGYR8kXs/edit?usp=sharing
+link del design system(dise;o): https://app.zeplin.io/project/5e277e0660b01e541a0ed8f7/dashboard?sid=5e6bbf5ede2abb14346cc84c
+link de figma con ejemplo de una pantalla de silbia y algunos tips: https://www.figma.com/file/dgpc2iFtP9UMBVgjeM1NXg/Burger-DS?node-id=0%3A1
+Charla de React Context Se explica como usar el React Context mediante un proyecto demo ppt: https://docs.google.com/presentation/d/1YIomsPYg7CtXJkiow-n3TTeSvqpLQQDRpRDVULxD334/edit#slide=id.g8f14c88e5c_0_5 grafico de manejo de estados: https://docs.google.com/drawings/d/1XzqD62z_n3ie5694UIoDKaFQAfWBB2YtjTEA3lr1QG8/edit sandbox: https://codesandbox.io/s/react-context-starter-w7o1x?file=/src/Generator.tsx
+CRISTOPHER Charla Arquitectura Front https://www.dropbox.com/s/tlkal29fb3x3wy8/UTP_PPT.pptx?dl=0
+Tailwind https://blog.logrocket.com/create-react-app-and-tailwindcss/</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>documentación on Blog Front</title>
+    <link>https://lacafetalab.github.io/front/categories/documentaci%C3%B3n/</link>
+    <description>Recent content in documentación on Blog Front</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Thu, 30 Jul 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lacafetalab.github.io/front/categories/documentaci%C3%B3n/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Design System</title>
+      <link>https://lacafetalab.github.io/front/post/cafeta-components/</link>
+      <pubDate>Thu, 30 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lacafetalab.github.io/front/post/cafeta-components/</guid>
+      <description>Design System Publicación de un nuevo componente o de una nueva versión  Nota: Recuerda tener configurado tu ssh para poder publicar al repo (cafeta-components) y estar logueado con npm login.
+ Dentro del proyecto (cafeta-components)
+yarn build git add . git commit -m ‘feat’ lerna publish  En el proyecto a utilizar, con esto actualizaras la dependencia
+yarn add @cafeta/components  ¿Cómo usar el Design System? Para empezar a usarlo basta con instalar @cafeta/components-react en el proyecto*</description>
+    </item>
+    
+  </channel>
+</rss>

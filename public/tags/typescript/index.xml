@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>typescript on Blog Front</title>
+    <link>https://lacafetalab.github.io/front/tags/typescript/</link>
+    <description>Recent content in typescript on Blog Front</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Thu, 08 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lacafetalab.github.io/front/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introducción a Patrones diseño</title>
+      <link>https://lacafetalab.github.io/front/post/introduction-pattern-design/</link>
+      <pubDate>Thu, 08 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://lacafetalab.github.io/front/post/introduction-pattern-design/</guid>
+      <description>En esta presentacion se habla sobre las interfaces de typescript y su importancia en la implementación de patrones de diseño.
+Por otro lado se hace un pequeña introducción sobre patrones de diseño detallando los siguientes:
+ Factory Method (Patrón Estructural) Singleton (Patrón Estructural) Decorator:(Patrón Estructural) Iterator (Patrón de Comportamiento)  
+PPT: https://docs.google.com/presentation/d/1iSHZHo-w0atPxY5RScw_wApyyFjCKibCluSP7dlBTpA/edit?usp=sharing
+Refactoring Guru: https://refactoring.guru/es/design-patterns
+Aportes: https://www.typescriptlang.org/docs/handbook/decorators.html
+Codigo: https://github.com/lacafetalab/design-patterns-demo
+Expositores: Verónica y Carlos</description>
+    </item>
+    
+  </channel>
+</rss>
